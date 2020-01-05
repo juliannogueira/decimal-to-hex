@@ -3,10 +3,11 @@
  * * Author: Julian Torres
  * * Date: 04 January 2020
  * * Description: This program is used to convert an unsigned integer, represented in decimal
- * *		  notation, to hexidecimal notation.
+ * *		  notation, to hexadecimal notation.
  * ************************************************************************************************/
 
 #include <iostream>
+#include <vector>
 
 void decimalToHex(int decimal);
 
@@ -15,7 +16,13 @@ void decimalToHex(int decimal){
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
 	int temp = decimal,
-	    length;
+	    length,
+	    currentRemainder,
+	    currentValue,
+	    previousValue;
+
+	// The values stored in this vector will be converted to hex symbols
+	std::vector <int> remainders;
 
 	// Calculate the number of digits in the integer
 	if(temp == 0){ length = 0; }
@@ -26,6 +33,26 @@ void decimalToHex(int decimal){
 	}
 
 	std::cout << std::endl << "Number of digits: " << length;
+
+	previousValue = decimal;
+	currentValue = decimal / 16;
+	currentRemainder = previousValue % 16;
+
+	remainders.push_back(currentRemainder);
+
+	// Continue operations until integer division reaches a floor of 0, indicating the last
+	// remainder is to be calculated.
+	while(currentValue != 0){
+		previousValue = currentValue;
+		currentValue = previousValue / 16;
+		currentRemainder = previousValue % 16;
+
+		remainders.push_back(currentRemainder);
+	}
+
+	for(int i = 0; i < remainders.size(); i++){
+		std::cout << std::endl << remainders[i];
+	}
 }
 
 int main(){
@@ -35,7 +62,7 @@ int main(){
 	std::cin >> decimal;
 
 	decimalToHex(decimal);
-
+	
 	return 0;
 }
 
