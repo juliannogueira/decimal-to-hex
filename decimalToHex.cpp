@@ -15,8 +15,10 @@ void decimalToHex(int decimal){
 	char hex[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+	char hexValue;
+
 	int temp = decimal,
-	    length,
+	    numberOfDigits,
 	    currentRemainder,
 	    currentValue,
 	    previousValue;
@@ -24,15 +26,20 @@ void decimalToHex(int decimal){
 	// The values stored in this vector will be converted to hex symbols
 	std::vector <int> remainders;
 
+	// This vector contains the hexadecimal converted remainder values
+	std::vector <char> hexValues;
+
 	// Calculate the number of digits in the integer
-	if(temp == 0){ length = 0; }
+	if(temp == 0){ numberOfDigits = 0; }
+
+	// This does not affect the conversion, but I initially thought it would be necessary to
+	// capture the number of digits. However, I will keep this in the program in case a use is
+	// developed later.
 	else{
-		for(length = 0; temp > 0; length++){
+		for(numberOfDigits = 0; temp > 0; numberOfDigits++){
 			temp = temp / 10;
 		}
 	}
-
-	std::cout << std::endl << "Number of digits: " << length;
 
 	previousValue = decimal;
 	currentValue = decimal / 16;
@@ -50,9 +57,20 @@ void decimalToHex(int decimal){
 		remainders.push_back(currentRemainder);
 	}
 
-	for(int i = 0; i < remainders.size(); i++){
-		std::cout << std::endl << remainders[i];
+	for(int index = 0; index < remainders.size(); index++){
+		hexValue = hex[remainders[index]];
+		hexValues.push_back(hexValue);
 	}
+
+	// Display the hexadecimal converted value
+	std::cout << std::endl << "Passed decimal value: " << decimal;
+	std::cout << std::endl << "Hexadecimal converted value: ";
+
+	for(int index = hexValues.size() - 1; index >= 0; index--){
+		std::cout << hexValues[index];
+	}
+
+	std::cout << std::endl;
 }
 
 int main(){
